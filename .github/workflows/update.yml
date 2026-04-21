@@ -1,0 +1,23 @@
+name: Update M3U
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download M3U
+        run: curl -o playlist.m3u https://34.magnitude.workers.dev/playlist.m3u
+
+      - name: Commit
+        run: |
+          git config user.name "bot"
+          git config user.email "bot@example.com"
+          git add playlist.m3u
+          git commit -m "auto update"
+          git push
