@@ -1,0 +1,5 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="atv" group-title="TV",atv
+https://https://34.magnitude.workers.dev/stream/atv
+#EXTINF:-1 tvg-id="kanald" group-title="TV",kanald
+https://https://34.magnitude.workers.dev/stream/kanald
