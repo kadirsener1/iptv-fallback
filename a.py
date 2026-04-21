@@ -1,81 +1,87 @@
-from flask import Flask, redirect, jsonify
-import requests, time, json
+let CACHE = {};
+let CACHE_TIME = 60; // saniye
 
-app = Flask(__name__)
+async function ping(url) {
+  try {
+    let start = Date.now();
+    let res = await fetch(url, { method: "HEAD" });
+    if (res.ok) {
+      return Date.now() - start;
+    }
+  } catch (e) {}
+  return null;
+}
 
-CACHE = {}
-CACHE_TIME = 60  # saniye
+async function getBestUrl(channel) {
+  let now = Date.now();
 
-def load_channels():
-    with open("kanallar.json", "r") as f:
-        return json.load(f)
+  if (CACHE[channel] && (now - CACHE[channel].time < CACHE_TIME * 1000)) {
+    return CACHE[channel].url;
+  }
 
-def ping(url):
-    try:
-        start = time.time()
-        r = requests.head(url, timeout=2)
-        if r.status_code == 200:
-            return time.time() - start
-    except:
-        return None
-    return None
+  // GitHub raw JSON çek
+  let res = await fetch("https://raw.githubusercontent.com/kadirsener1/iptv-fallback/main/kanallar.json");
+  let data = await res.json();
 
-def get_best_url(channel):
-    now = time.time()
+  if (!data[channel]) return null;
 
-    # cache varsa kullan
-    if channel in CACHE:
-        if now - CACHE[channel]["time"] < CACHE_TIME:
-            return CACHE[channel]["url"]
+  let results = [];
 
-    channels = load_channels()
+  for (let url of data[channel]) {
+    let t = await ping(url);
+    if (t !== null) {
+      results.push({ t, url });
+    }
+  }
 
-    if channel not in channels:
-        return None
+  if (results.length === 0) return null;
 
-    results = []
+  results.sort((a, b) => a.t - b.t);
+  let best = results[0].url;
 
-    for url in channels[channel]:
-        t = ping(url)
-        if t is not None:
-            results.append((t, url))
+  CACHE[channel] = {
+    url: best,
+    time: now
+  };
 
-    if not results:
-        return None
+  return best;
+}
 
-    # en hızlı link
-    best = sorted(results)[0][1]
+export default {
+  async fetch(request) {
+    let url = new URL(request.url);
 
-    # cache kaydet
-    CACHE[channel] = {
-        "url": best,
-        "time": now
+    // 🎬 STREAM
+    if (url.pathname.startsWith("/stream/")) {
+      let channel = url.pathname.split("/")[2];
+
+      let best = await getBestUrl(channel);
+
+      if (best) {
+        return Response.redirect(best, 302);
+      }
+
+      return new Response("Yayın yok", { status: 404 });
     }
 
-    return best
+    // 📺 M3U
+    if (url.pathname === "/playlist.m3u") {
 
-@app.route("/stream/<channel>")
-def stream(channel):
-    best_url = get_best_url(channel)
+      let res = await fetch("https://raw.githubusercontent.com/kadirsener1/iptv-fallback/main/kanallar.json");
+      let data = await res.json();
 
-    if best_url:
-        return redirect(best_url)
+      let m3u = "#EXTM3U\n";
 
-    return "Yayın yok", 404
+      for (let ch in data) {
+        m3u += `#EXTINF:-1 tvg-id="${ch}" group-title="TV",${ch}\n`;
+        m3u += `https://34.magnitude.workers.dev/stream/${ch}\n`;
+      }
 
+      return new Response(m3u, {
+        headers: { "Content-Type": "audio/x-mpegurl" }
+      });
+    }
 
-# 📺 M3U üretici
-@app.route("/playlist.m3u")
-def playlist():
-    channels = load_channels()
-
-    m3u = "#EXTM3U\n"
-
-    for ch in channels:
-        m3u += f'#EXTINF:-1 tvg-id="{ch}" group-title="TV",{ch}\n'
-        m3u += f"https://senin-domain.com/stream/{ch}\n"
-
-    return m3u, 200, {"Content-Type": "audio/x-mpegurl"}
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    return new Response("OK");
+  }
+}
