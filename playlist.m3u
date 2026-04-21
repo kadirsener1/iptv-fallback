@@ -1,5 +1,24 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="atv" group-title="TV",atv
-https://https://34.magnitude.workers.dev/stream/atv
-#EXTINF:-1 tvg-id="kanald" group-title="TV",kanald
-https://https://34.magnitude.workers.dev/stream/kanald
+#EXT-X-VERSION:3
+#EXT-X-MEDIA-SEQUENCE:266355
+#EXT-X-TARGETDURATION:4
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266355.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266356.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266357.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266358.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266359.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266360.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266361.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266362.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266363.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
+#EXTINF:4.000,
+https://siraucbeyaz.denek1544.workers.dev/proxy?url=https%3A%2F%2Fnord.ayakkabiparti.lol%2Fstartv%2F266364.ts&ua=googleusercontent&ref=https%3A%2F%2Ftwitter.com%2F
