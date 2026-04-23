@@ -52,7 +52,7 @@ export default {
     let url = new URL(request.url);
 
     // 🎬 STREAM
-    if (url.pathname.startsWith("/stream/")) {
+    if (url.pathname.startsWith("/")) {
       let channel = url.pathname.split("/")[2];
 
       let best = await getBestUrl(channel);
@@ -74,7 +74,7 @@ export default {
 
       for (let ch in data) {
         m3u += `#EXTINF:-1 tvg-id="${ch}" group-title="TV",${ch}\n`;
-        m3u += `https://34.magnitude.workers.dev/stream/${ch}\n`;
+        m3u += `https://34.magnitude.workers.dev/${ch}\n`;
       }
 
       return new Response(m3u, {
